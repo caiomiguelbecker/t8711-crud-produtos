@@ -5,6 +5,10 @@ class Fornecedor_Controller:
     def __init__(self, dao, view):
         self.dao = dao
         self.view = view
+        
+    def new(self):
+        pass
+        
     def save(self):
         try:
             razao_social, nome_fantasia, cnpj, sla_atendimento = self.view.ler_dados_fornecedor()
@@ -45,6 +49,9 @@ class Fornecedor_Controller:
                 self.view.exibir_mensagem("Fornecedor não encontrado.", False)
         except ValueError:
             self.view.exibir_mensagem("Erro: ID inválido", False)
+            
+            
+            
     def inicializar_sistema(self):
         while True:
             os.system('cls' if os.name == 'nt' else 'clear')

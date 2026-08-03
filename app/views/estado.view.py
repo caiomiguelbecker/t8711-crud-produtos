@@ -2,31 +2,29 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-from app.models.fornecedor import Fornecedor
+from app.models.estado import Estado
 
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-class Fornecedor_View:
-    def __init__(self, root, controller):
+class Estado_view:
+    def __init__(self, root):
         self.root = root
-        self.controller = controller
         self.configurar_janela()
         self.criar_componentes()
         self.configurar_treeview()
         self.configurar_eventos()
-
+        
     def configurar_janela(self):
-        self.root.title("CRUD de Fornecedores")
+        self.root.title("CRUD de Estados")
         self.root.geometry("800x600")
         self.root.resizable(False, False)
-  
-
+    
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text = "Cadastro de Fornecedores",
+            text = "Cadastro de Estados",
             font = ("Arial", 16, "bold"),
         )
         self.lbl_titulo.grid(
@@ -39,7 +37,7 @@ class Fornecedor_View:
         )
         self.frm_dados = tk.LabelFrame(
             self.root,
-            text = "Dados do fornecedor"
+            text = "Dados do estado"
         )
         self.frm_dados.grid(
             row = 1,
@@ -69,90 +67,49 @@ class Fornecedor_View:
             pady = 5,
             sticky = 'w'
         )
-        self.lbl_razao_social = tk.Label(
+        self.lbl_nome = tk.Label(
             self.frm_dados,
-            text = "Razão Social:"
+            text = "Nome:"
         )
-        self.lbl_razao_social.grid(
+        self.lbl_nome.grid(
             row = 1,
             column = 0,
             padx = 5,
             pady = 5,
             sticky = 'w'
         )
-        self.txt_razao_social = tk.Entry(
+        self.txt_nome = tk.Entry(
             self.frm_dados,
             width = 40
         )
-        self.txt_razao_social.grid(
+        self.txt_nome.grid(
             row = 1,
             column = 1,
             padx = 5,
             pady = 5,
             sticky = 'w'
         )
-        self.lbl_nome_fantasia = tk.Label(
+        self.lbl_sigla = tk.Label(
             self.frm_dados,
-            text = "Nome Fantasia:"
+            text = "Sigla:"
         )
-        self.lbl_nome_fantasia.grid(
+        self.lbl_sigla.grid(
             row = 1,
             column = 2,
             padx = 5,
             pady = 5,
             sticky = 'w'
         )
-        self.txt_nome_fantasia = tk.Entry(
+        self.txt_sigla = tk.Entry(
             self.frm_dados,
-            width = 40
+            width = 20
         )
-        self.txt_nome_fantasia.grid(
+        self.txt_sigla.grid(
             row = 1,
             column = 3,
             padx = 5,
             pady = 5,
             sticky = 'w'
-        )
-        self.lbl_cnpj = tk.Label(
-            self.frm_dados,
-            text = "CNPJ:"
-        )
-        self.lbl_cnpj.grid(
-            row = 2,
-            column = 0,
-            padx = 5,
-            pady = 5,
-            sticky = 'w'
-        )
-        self.txt_cnpj = tk.Entry(
-            self.frm_dados,
-            width = 40
-        )
-        self.txt_cnpj.grid(
-            row = 2,
-            column = 1,
-            padx = 5,
-            pady = 5
-        )
-        self.lbl_sla_atendimento = tk.Label(
-            self.frm_dados, 
-            text = "SLA Atendimento:"
-        )
-        self.lbl_sla_atendimento.grid(
-            row = 2,
-            column = 2,
-            padx = 5,
-            pady = 5
-        )
-        self.txt_sla_atendimento = tk.Entry(
-            self.frm_dados,
-            width = 40
-        )
-        self.txt_sla_atendimento.grid(
-            row = 2,
-            column = 3,
-            padx = 5,
-            pady = 5
         )
         self.frm_botoes = tk.Frame(
             self.frm_dados,
@@ -221,11 +178,11 @@ class Fornecedor_View:
             padx = 5,
             pady = 5 
         )
-        self.tbl_fornecedores = ttk.Treeview(
+        self.tbl_estado = ttk.Treeview(
             self.root,
             height = 10
         )
-        self.tbl_fornecedores.grid(
+        self.tbl_estado.grid(
             row = 3,
             column = 0,
             columnspan = 4,
@@ -233,44 +190,44 @@ class Fornecedor_View:
             pady = 10,
             sticky = 'nsew'            
         )
-                
+    
+    
     def configurar_treeview(self):
-        self.tbl_fornecedores['columns'] = (
+        self.tbl_estado['columns'] = (
             'ID',
-            'RAZAO_SOCIAL',
-            'CNPJ'
+            'Nome',
+            'Sigla'
         )
-        self.tbl_fornecedores.column(
+        self.tbl_estado.column(
             "#0",
             width = 0,
             stretch = False
         )
-        self.tbl_fornecedores.column(
+        self.tbl_estado.column(
             "ID",
             width = 10
         )
-        self.tbl_fornecedores.column(
-            "RAZAO_SOCIAL",
+        self.tbl_estado.column(
+            "Nome",
             width = 50
         )
-        self.tbl_fornecedores.column(
-            "CNPJ",
+        self.tbl_estado.column(
+            "Sigla",
             width = 20
         )
-        self.tbl_fornecedores.heading(
+        self.tbl_estado.heading(
             "ID",
             text = "ID"
         )
-        self.tbl_fornecedores.heading(
-            "RAZAO_SOCIAL",
-            text = "Razão social"
+        self.tbl_estado.heading(
+            "Nome",
+            text = "Nome"
         )
-        self.tbl_fornecedores.heading(
-            "CNPJ",
-            text = "cnpj"
+        self.tbl_estado.heading(
+            "Sigla",
+            text = "Sigla"
         )
         
-
     def configurar_eventos(self):
         self.btn_novo.config(
             command = self.controller.new
@@ -285,16 +242,13 @@ class Fornecedor_View:
             command = self.controller.delete
         )
     
-    def limpar_campos(self):
-        self.txt_id.delete(0, tk.END)
-        self.txt_razao_social.delete(0, tk.END)
-        self.txt_nome_fantasia.delete(0, tk.END)
-        self.txt_cnpj.delete(0, tk.END)
-        self.txt_sla_atendimento.delete(0, tk.END)
-                
-        
+    def Limpar_campos(self):
+        self.txt_id.config(0, tk.END)
+        self.txt_nome.config(0, tk.END)
+        self.txt_sigla.config(0, tk.END)
+    
     def iniciar(self):
         self.root.mainloop()
 
-f = Fornecedor_View(tk.Tk())
-f.iniciar()
+e = Estado_view(tk.Tk())
+e.iniciar()

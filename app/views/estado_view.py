@@ -9,18 +9,17 @@ from tkinter import messagebox
 from tkinter import ttk
 
 class Estado_view:
-    def __init__(self, root):
+    def __init__(self, root, controller):
         self.root = root
+        self.controller = controller
         self.configurar_janela()
         self.criar_componentes()
         self.configurar_treeview()
-        self.configurar_eventos()
-        
+        self.configurar_eventos()       
     def configurar_janela(self):
         self.root.title("CRUD de Estados")
         self.root.geometry("800x600")
-        self.root.resizable(False, False)
-    
+        self.root.resizable(False, False)   
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
@@ -189,9 +188,7 @@ class Estado_view:
             padx = 10,
             pady = 10,
             sticky = 'nsew'            
-        )
-    
-    
+        )   
     def configurar_treeview(self):
         self.tbl_estado['columns'] = (
             'ID',
@@ -226,8 +223,7 @@ class Estado_view:
         self.tbl_estado.heading(
             "Sigla",
             text = "Sigla"
-        )
-        
+        )       
     def configurar_eventos(self):
         self.btn_novo.config(
             command = self.controller.new
@@ -240,15 +236,70 @@ class Estado_view:
         )
         self.btn_excluir.config(
             command = self.controller.delete
+        )    
+    def preencher_campos(self, estado: Estado):
+        self.Limpar_campos()
+        self.txt_id.config(state = "normal")
+        self.txt_id.insert(
+            0,
+            str(estado.id)
         )
-    
+        self.txt_id.config(state = "readonly")
+        self.txt_nome.insert(
+            0,
+            estado.nome
+        )
+        self.txt_sigla.insert(
+            0,
+            estado.sigla
+        )
     def Limpar_campos(self):
         self.txt_id.config(0, tk.END)
         self.txt_nome.config(0, tk.END)
-        self.txt_sigla.config(0, tk.END)
+        self.txt_sigla.config(0, tk.END)   
+    def limpar_treeview(self):
+        for item in self.tbl_estado.get_children():
+            self.tbl_estado.delete(item)
+    def get_id_selecionado(self):
+        item = self.tbl_estado.selection()[0]
+        return self.tbl_estado.item(item)["values"][0]
+    def confirmar_exclusao(self):
+        
+        return messagebox.askyesno(
+            "confirmação",
+            "Deseja realmente excluir o estado selecionado?"
+        )
+    def ler_dados_estado(self):
+        nome = self.txt_nome.get()
+        sigla = self.txt_sigla.get()
+        return nome, sigla
+    def exibir_mensagem(self, mensagem, sucesso=True):
+        if sucesso:
+            messagebox.showinfo(
+                "Mini ERP",
+                mensagem
+            )
+        else:
+            messagebox.showerror(
+                "Mini ERP",
+                mensagem
+            )
+    def exibie_estado(self, estados):
+        
+        self.limpar_treeview()
+        
+        for estado in estados:
+            self.tbl_estado.insert(
+                "",
+                tk.END,
+                values = (
+                    estado.id,
+                    estado.nome,
+                    estado.sigla
+                )
+            )
+    
     
     def iniciar(self):
         self.root.mainloop()
 
-e = Estado_view(tk.Tk())
-e.iniciar()

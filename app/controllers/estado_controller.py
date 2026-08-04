@@ -8,6 +8,11 @@ class Estado_Controller:
         self.dao = dao
         self.view = view
 
+
+    def new(self):
+
+        self.view.limpar_campos()
+
     def save(self):
 
         try:

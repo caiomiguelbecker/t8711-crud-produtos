@@ -15,10 +15,12 @@ class Produto_View:
         self.criar_componentes()
         self.configurar_treeview()
         self.configurar_eventos()
+        
     def configurar_janela(self):
         self.root.title("CRUD de Produtos")
         self.root.geometry("800x600")
         self.root.resizable(False, False)
+        
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
@@ -299,6 +301,7 @@ class Produto_View:
             text = "Fornecedor"
         )
     def configurar_eventos(self):
+        
         self.btn_novo.config(
             command = self.controller.new
         )
@@ -328,6 +331,7 @@ class Produto_View:
             )
         self.cmb_fornecedores["values"] = valores
         self.cmb_fornecedores.set("")
+        
     def preencher_campos(self, produto):
 
         self.limpar_campos()
@@ -366,7 +370,9 @@ class Produto_View:
         self.txt_preco.delete(0, tk.END)
         self.cmb_fornecedores.set("")
         self.txt_nome.focus()
+        
     def limpar_treeview(self):
+        
         for item in self.tbl_produtos.get_children():
             self.tbl_produtos.delete(item)
     def get_id_selecionado(self):
@@ -374,13 +380,16 @@ class Produto_View:
         item = self.tbl_produtos.selection()[0]
 
         return self.tbl_produtos.item(item)["values"][0]
+    
     def confirmar_exclusao(self):
+        
 
         return messagebox.askyesno(
             "Confirmação",
             "Deseja realmente excluir este produto?"
         )
     def ler_dados_produto(self):
+        
         nome = self.txt_nome.get()
         estoque = int(self.txt_estoque.get())
         preco = float(self.txt_preco.get())
@@ -401,6 +410,7 @@ class Produto_View:
                 mensagem
             )
     def exibir_produtos(self, produtos):
+        
 
         self.limpar_treeview()
 
@@ -420,6 +430,7 @@ class Produto_View:
             )
     def fechar(self):
         self.root.destroy()
+        
     def iniciar(self):
         self.controller.carregar_fornecedores()
         self.controller.get_all()

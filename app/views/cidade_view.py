@@ -5,7 +5,7 @@ from tkinter import messagebox
 from tkinter import ttk
 
 class Cidade_view:
-    def __init__ (self, root,controller=None):
+    def __init__ (self, root,controller):
         self.root = root
         self.controller = controller
         self._estado = []
@@ -262,8 +262,7 @@ class Cidade_view:
             command = self.controller.delete
         )
         self.btn_excluir.config(
-            command = self.
-            fechar
+            command = self.fechar
         )
         self.tbl_cidades.bind(
             "<<TreeviewSelect>>",
@@ -295,8 +294,8 @@ class Cidade_view:
             cidade.nome
         )
         
-        for indice,cidade in enumerate(self._estado):
-            if cidade.id == cidade.estado.id:
+        for indice, estado in enumerate(self._estado):
+            if estado.id == cidade.estado.id:
                 self.cmb_estado.current(indice)
                 break
         

@@ -7,14 +7,15 @@ class Estado_Controller:
     def __init__(self, dao, view):
         self.dao = dao
         self.view = view
+        self.estado_selecionado = None
 
 
     def new(self):
-
         self.view.limpar_campos()
+        self.estado_selecionado = None
+
 
     def save(self):
-
         try:
 
             nome, sigla = self.view.ler_dados_estado()
@@ -27,6 +28,8 @@ class Estado_Controller:
 
             self.dao.save(estado)
 
+            self.get_all()
+
             self.view.exibir_mensagem(
                 "Estado cadastrado com sucesso!"
             )
@@ -38,56 +41,76 @@ class Estado_Controller:
                 False
             )
 
-        except KeyboardInterrupt:
-
-            self.view.exibir_mensagem(
-                "Operação cancelada pelo usuário.",
-                False
-            )
 
     def get_all(self):
 
         estados = self.dao.get_all()
 
-        self.view.exibir_estados(estados)
+        self.view.exibir_estados(
+            estados
+        )
 
-        self.view.aguardar_entrada()
+
+    def selecionar_estado(self, event=None):
+
+        try:
+
+            id_estado = self.view.get_id_selecionado()
+
+            if id_estado is None:
+                return
+
+
+            self.estado_selecionado = self.dao.get_by_id(
+                id_estado
+            )
+
+
+            self.view.preencher_campos(
+                self.estado_selecionado
+            )
+
+
+        except Exception:
+            pass
+
+
 
     def update(self):
 
         try:
 
-            estados = self.dao.get_all()
-
-            self.view.exibir_estados(estados)
-
-            id_estado = int(self.view.ler_id())
-
-            estado_existente = self.dao.get_by_id(id_estado)
-
-            if estado_existente is None:
+            if self.estado_selecionado is None:
 
                 self.view.exibir_mensagem(
-                    "Estado não encontrado.",
+                    "Selecione um estado na lista.",
                     False
                 )
 
                 return
 
-            nome, sigla = self.view.ler_dados_estado(
-                estado_existente
-            )
 
-            estado_existente.atualizar_dados(
+            nome, sigla = self.view.ler_dados_estado()
+
+
+            self.estado_selecionado.atualizar_dados(
                 nome,
                 sigla
             )
 
-            self.dao.update(estado_existente)
+
+            self.dao.update(
+                self.estado_selecionado
+            )
+
+
+            self.get_all()
+
 
             self.view.exibir_mensagem(
                 "Estado atualizado com sucesso!"
             )
+
 
         except ValueError as e:
 
@@ -96,23 +119,44 @@ class Estado_Controller:
                 False
             )
 
+
+
     def delete(self):
+
+        if self.estado_selecionado is None:
+
+            self.view.exibir_mensagem(
+                "Selecione um estado na lista.",
+                False
+            )
+
+            return
+
+
+        if not self.view.confirmar_exclusao():
+            return
+
 
         try:
 
-            estados = self.dao.get_all()
+            sucesso = self.dao.delete(
+                self.estado_selecionado.id
+            )
 
-            self.view.exibir_estados(estados)
-
-            id_estado = int(self.view.ler_id())
-
-            sucesso = self.dao.delete(id_estado)
 
             if sucesso:
+
+                self.estado_selecionado = None
+
+                self.view.limpar_campos()
+
+                self.get_all()
+
 
                 self.view.exibir_mensagem(
                     "Estado excluído com sucesso!"
                 )
+
 
             else:
 
@@ -121,39 +165,55 @@ class Estado_Controller:
                     False
                 )
 
-        except ValueError:
+
+        except Exception as e:
 
             self.view.exibir_mensagem(
-                "Erro: ID inválido.",
+                f"Problema ao excluir o estado: {str(e)}",
                 False
             )
 
+
+
     def inicializar_sistema(self):
+
+        # CARREGA OS ESTADOS ASSIM QUE ABRIR A TELA
+        self.get_all()
+
 
         while True:
 
-            os.system('cls' if os.name == 'nt' else 'clear')
+            os.system(
+                "cls" if os.name == "nt" else "clear"
+            )
+
 
             opcao = self.view.renderizar_menu()
+
 
             if opcao == 0:
                 break
 
+
             elif opcao == 1:
                 self.save()
+
 
             elif opcao == 2:
                 self.get_all()
 
+
             elif opcao == 3:
                 self.update()
+
 
             elif opcao == 4:
                 self.delete()
 
+
             else:
 
                 self.view.exibir_mensagem(
-                    "Opção inválida.",
+                    "Opção inválida. Tente novamente.",
                     False
                 )

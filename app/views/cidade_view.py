@@ -22,7 +22,7 @@ class Cidade_view:
     def criar_componentes(self):
         self.lbl_titulo = tk.Label(
             self.root,
-            text = "Cadastro de Produtos",
+            text = "Cadastro de Cidades",
             font = ("Arial", 16, "bold")
         )
         self.lbl_titulo.grid(
@@ -262,7 +262,8 @@ class Cidade_view:
             command = self.controller.delete
         )
         self.btn_excluir.config(
-            command = self.fechar
+            command = self.
+            fechar
         )
         self.tbl_cidades.bind(
             "<<TreeviewSelect>>",

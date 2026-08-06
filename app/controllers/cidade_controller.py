@@ -9,6 +9,10 @@ class Cidade_Controller:
         self.estado_dao = estado_dao
         self.view = view
 
+    def new(self):
+        self.limpar_campos()
+
+
     def save(self):
 
         try:

@@ -3,7 +3,6 @@ from app.models.estado import Estado
 
 
 class Estado_Controller:
-
     def __init__(self, dao, view):
         self.dao = dao
         self.view = view
@@ -17,15 +16,12 @@ class Estado_Controller:
 
     def save(self):
         try:
-
             nome, sigla = self.view.ler_dados_estado()
-
             estado = Estado(
                 None,
                 nome,
                 sigla
             )
-
             self.dao.save(estado)
 
             self.get_all()
@@ -43,7 +39,6 @@ class Estado_Controller:
 
 
     def get_all(self):
-
         estados = self.dao.get_all()
 
         self.view.exibir_estados(
@@ -77,7 +72,6 @@ class Estado_Controller:
 
 
     def update(self):
-
         try:
 
             if self.estado_selecionado is None:
@@ -212,6 +206,7 @@ class Estado_Controller:
 
 
             else:
+                self.view.exibir_mensagem("Opção inválida. Tente novamente.", False)
 
                 self.view.exibir_mensagem(
                     "Opção inválida. Tente novamente.",

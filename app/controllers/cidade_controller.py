@@ -19,7 +19,6 @@ class Cidade_Controller:
         self.view.carregar_estados(estados)
 
     def save(self):
-
         try:
 
             nome, estado = self.view.ler_dados_cidade()
@@ -29,7 +28,6 @@ class Cidade_Controller:
                 nome,
                 estado
             )
-
             self.dao.save(cidade)
 
             self.get_all()
@@ -46,7 +44,6 @@ class Cidade_Controller:
             )
 
     def get_all(self):
-
         cidades = self.dao.get_all()
 
         self.view.exibir_cidades(
@@ -104,11 +101,7 @@ class Cidade_Controller:
             )
 
         except ValueError as e:
-
-            self.view.exibir_mensagem(
-                f"Erro: {str(e)}",
-                False
-            )
+            self.view.exibir_mensagem(f"Erro: {str(e)}", False)
 
     def delete(self):
 

@@ -369,7 +369,6 @@ class Fornecedor_View:
         self.txt_razao_social.focus()
 
     def limpar_treeview(self):
-
         for item in self.tbl_fornecedores.get_children():
             self.tbl_fornecedores.delete(item)
 

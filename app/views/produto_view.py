@@ -325,10 +325,12 @@ class Produto_View:
     def carregar_fornecedores(self, fornecedores):
         self._fornecedores = fornecedores
         valores = []
+
         for fornecedor in fornecedores:
             valores.append(
-                f"{fornecedor.id} - {fornecedor.nome_fantasia}"
-            )
+            f"{fornecedor.id} - {fornecedor.nome_fantasia}"
+        )
+
         self.cmb_fornecedores["values"] = valores
         self.cmb_fornecedores.set("")
         
@@ -399,39 +401,11 @@ class Produto_View:
         fornecedor = self._fornecedores[indice]
         return nome, estoque, preco, fornecedor
     def exibir_mensagem(self, mensagem, sucesso=True):
-        if sucesso:
-            messagebox.showinfo(
-                "Mini ERP",
-                mensagem
-            )
-        else:
-            messagebox.showerror(
-                "Mini ERP",
-                mensagem
-            )
-    def exibir_produtos(self, produtos):
-        
+        cor = Fore.GREEN if sucesso else Fore.RED
+        print(cor + f"\n[STATUS] {mensagem}\n")
+        self.aguardar_entrada()
 
-        self.limpar_treeview()
+    def aguardar_entrada(self):
+        input(Fore.WHITE + "Pressione Enter para continuar...")
 
-        for produto in produtos:
 
-            self.tbl_produtos.insert(
-                "",
-                tk.END,
-                values=(
-                    produto.id,
-                    produto.nome,
-                    produto.estoque,
-                    f"{produto.preco:.2f}",
-                    f"{produto.valor_estoque:.2f}",
-                    produto.fornecedor.nome_fantasia
-                )
-            )
-    def fechar(self):
-        self.root.destroy()
-        
-    def iniciar(self):
-        self.controller.carregar_fornecedores()
-        self.controller.get_all()
-        self.root.mainloop()

@@ -56,9 +56,7 @@ class Fornecedor_Controller:
         )
 
     def selecionar_fornecedor(self, event):
-
         try:
-
             id_fornecedor = self.view.get_id_selecionado()
 
             if id_fornecedor is None:
@@ -67,7 +65,6 @@ class Fornecedor_Controller:
             self.fornecedor_selecionado = self.dao.get_by_id(
                 id_fornecedor
             )
-
             self.view.preencher_campos(
                 self.fornecedor_selecionado
             )

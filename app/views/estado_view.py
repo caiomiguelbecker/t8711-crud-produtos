@@ -357,6 +357,7 @@ class Estado_view:
     def exibir_estados(self, estados):
 
         self.limpar_treeview()
+        self.limpar_treeview()
 
         for estado in estados:
 
